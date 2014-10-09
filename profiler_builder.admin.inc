@@ -540,19 +540,24 @@ function profiler_builder_profile_builder_profile_file_alter(&$files, $machine_n
           // This should work as the changes on the new .info file would overrite the ones on the old.
           if($temp_files !== FALSE){
             $files[$key] = $temp_files;
+            dpm('here');
           } 
           break;
         case 'install':
           # Create diff between retrieved install profile and current install profile
+          dpm('install');
           break;
         case $drush_file:
           # Replace the drush file with the corrected drush file
+          dpm('drush file');
           break;
         case $local_file:
           # do something...
+          dpm('local');
           break;
         default:
           # do something...
+          dpm('default');
           break;
       }
     }
