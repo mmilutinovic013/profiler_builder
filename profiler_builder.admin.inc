@@ -558,6 +558,9 @@ function profiler_builder_profile_builder_profile_file_alter(&$files, $machine_n
         default:
           # do something...
           dpm('default');
+          if($temp_files !== FALSE){
+            $files[$key] = $temp_files;
+          }
           break;
       }
     }
