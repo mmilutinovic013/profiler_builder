@@ -63,26 +63,9 @@ before_script:
 
 script:
   # run build scripts against site1
-  - cd /var/www/site1
   - drush dvr start
-  - drush site-install -y --db-url=mysql://root@localhost/travisdb --db-su='root' --db-su-pw=''
-  # run included recipes
-  - drush cook --y core_performance
-  - drush cook --y simple_performance_pack
-  - drush cook --y dr_security_core_settings
-  - drush cook --y dr_security
-  - drush cook --y dr_security_owasp
-  - drush cook --y dr_security_corp
-  - drush cook --y core_above_core
-  - drush cook --y crufty_core_off
-  - drush cook --y d7adminux
-  - drush cook --y d8ind7adminux
-  - drush dl registry_rebuild --y
-  - drush dl drush_ecl --y
-  - drush cook --y dr_safe_upgrade
-  # build site2 via recipes
-  - cd /var/www/site2
-  - drush cook dr_si,standard_baseline --y --mlt-profile=standard --mlt-db-url=mysql://root@localhost/travisdb --mlt-site-name="Site2"
+  - cd /var/www/site1
+  - drush cook dr_si,standard_baseline --y --mlt-profile=standard --mlt-db-url=mysql://root@localhost/travisdb --mlt-site-name="Site1"
   # test some other commands
   - drush ddt --test-run --y
   - drush dvr watch
