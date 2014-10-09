@@ -62,9 +62,8 @@ before_script:
 
 script:
   # run build scripts against site1
-  - cd /var/www/site1
+  # 
   # do things for the first site
-  - drush dvr start
   - cd /var/www/site2
   - drush cook dr_si,standard_baseline --y --mlt-profile=standard --mlt-db-url=mysql://root@localhost/travisdb --mlt-site-name="Site2"
   # test some other commands
