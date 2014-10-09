@@ -543,13 +543,13 @@ function profiler_builder_profile_builder_profile_file_alter(&$files, $machine_n
           } 
           break;
         case 'install':
-          # do something
+          # Create diff between retrieved install profile and current install profile
           break;
         case $drush_file:
-          # do something
+          # Replace the drush file with the corrected drush file
           break;
         case $local_file:
-          # do something
+          # do something...
           break;
         default:
           # do something...
