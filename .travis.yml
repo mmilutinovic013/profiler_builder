@@ -53,12 +53,10 @@ before_script:
   - sudo mkdir -p /var/www
   - sudo chown travis:travis /var/www
   - drush dl drupal --destination=/var/www --default-major=7 --drupal-project-rename=site1 --y
-  - cp -r /var/www/site1 /var/www/site2
   # get drush recipes setup functions
   - sudo chown -R travis:travis ~/.drush
   - cd ~/.drush/
   - git clone https://github.com/drupalprojects/drush_recipes.git
-  - git clone https://github.com/mmilutinovic1313/profiler_builder.git
   - drush cc drush
 
 script:
@@ -67,6 +65,12 @@ script:
   - cd /var/www/site1
   - drush cook dr_si,standard_baseline --y --mlt-profile=standard --mlt-db-url=mysql://root@localhost/travisdb --mlt-site-name="Site1"
   # test some other commands
+  - git clone https://github.com/mmilutinovic1313/profiler_builder.git
+  - drush en profiler_builder
+  - drush cc drush
+  - drush distro --y
+  - cd profiles
+  # 
   - drush ddt --test-run --y
   - drush dvr watch
   - drush dvr delete --command=si

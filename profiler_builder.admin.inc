@@ -296,7 +296,6 @@ function _profiler_builder_build_profile($name, $machine_name, $description, $ex
   );
   // allow for other projects to integrate with modification of the file repo
   drupal_alter('profiler_builder_build_files', $files, $machine_name);
-  profiler_builder_profile_builder_profile_file_alter($files, $machine_name);
   // Generate download file name
   $filename =  $machine_name . '.tar';
   // Clear out output buffer to remove any garbage from tar output.
@@ -524,49 +523,54 @@ if (!function_exists("system_form_install_select_profile_form_alter")) {
 }
 
 // new function
-function profiler_builder_profile_builder_profile_file_alter(&$files, $machine_name){
+function profiler_builder_profiler_builder_build_files_alter(&$files, $machine_name){
   // do this for just .profile files
   $file_path = drupal_get_path('profile', $machine_name);
   if(!empty($file_path)){
     foreach ($files as $key => $value) { // key is filename value is contents
-      $temp_files = @file_get_contents($file_path . '/' . $key); 
-      $temp_file_extension = $temp_files['extension'];
+      $temp_file = @file_get_contents($file_path . '/' . $key); 
+      // $temp_file_extension = $temp_files['extension'];
+      $delimited_temp_file = explode('.', $key);
+      $temp_file_extension = array_pop($delimited_temp_file);
       switch ($temp_file_extension) {
         case 'profile':
-          if($temp_files !== FALSE){
-            $files[$key] = $temp_files;
+          if($temp_file !== FALSE){
+            $files[$key] = $temp_file;
           }
           break;
         case 'info':
-          // This should work as the changes on the new .info file would overrite the ones on the old.
-          if($temp_files !== FALSE){
-            $files[$key] = $temp_files;
-            dpm('here');
+          // This uses the changes on the new .info file to overrite the ones on the old one.
+          if($temp_file !== FALSE){
+            $files[$key] = $temp_file;
           } 
           break;
         case 'install':
           # Create diff between retrieved install profile and current install profile
-          dpm('install');
           break;
-        case $drush_file:
-          # Replace the drush file with the corrected drush file
-          dpm('drush file');
+        case 'drush_file':
+          # Replace the drush file with the corrected drush file  -- change this case extension
           break;
-        case $local_file:
-          # do something...
-          dpm('local');
+        case 'local_file':
+          # do something... -- change this case extension
           break;
         default:
-          # do something...
-          dpm('default');
-          if($temp_files !== FALSE){
-            $files[$key] = $temp_files;
+          # The default appends files with extensions not in the above cases to the profile
+          dpm('default: ' . $temp_file_extension);
+          if($temp_file !== FALSE){
+            $files[$key] = $temp_file;
           }
           break;
+          //
+          // Working on searching the file system for other files that are not in the files array.
+          // 
+          $mask = '/^' . DRUPAL_PHP_FUNCTION_PATTERN . '\.' . DRUSH_RECIPE_EXTENSION . '/';
+          drush_scan_directory($dir, $mask, array('.', '..', 'CVS'), 0, TRUE, $key, $min_depth);
+          //
+          // End Working Code
+          // 
       }
     }
   }
-  // dear future Mark: append the stuff to the files array that is in the file system and not one of the above listed files.
   return $files;
 }
 
