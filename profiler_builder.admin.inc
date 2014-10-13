@@ -296,6 +296,7 @@ function _profiler_builder_build_profile($name, $machine_name, $description, $ex
   );
   // allow for other projects to integrate with modification of the file repo
   drupal_alter('profiler_builder_build_files', $files, $machine_name);
+  profiler_builder_profile_builder_profile_file_alter($files, $machine_name);
   // Generate download file name
   $filename =  $machine_name . '.tar';
   // Clear out output buffer to remove any garbage from tar output.
