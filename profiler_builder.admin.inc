@@ -529,7 +529,6 @@ function profiler_builder_profiler_builder_build_files_alter(&$files, $machine_n
   if(!empty($file_path)){
     foreach ($files as $key => $value) { // key is filename value is contents
       $temp_file = @file_get_contents($file_path . '/' . $key); 
-      // $temp_file_extension = $temp_files['extension'];
       $delimited_temp_file = explode('.', $key);
       $temp_file_extension = array_pop($delimited_temp_file);
       switch ($temp_file_extension) {
@@ -560,16 +559,25 @@ function profiler_builder_profiler_builder_build_files_alter(&$files, $machine_n
             $files[$key] = $temp_file;
           }
           break;
-          //
-          // Working on searching the file system for other files that are not in the files array.
-          // 
-          $mask = '/^' . DRUPAL_PHP_FUNCTION_PATTERN . '\.' . DRUSH_RECIPE_EXTENSION . '/';
-          drush_scan_directory($dir, $mask, array('.', '..', 'CVS'), 0, TRUE, $key, $min_depth);
+        }
+          
+    }
+          $mask = '/.*/';
+          $extra_file = file_scan_directory($file_path, $mask); // files is the current options array -- verify that this is true --check uri validity?
+          $extra_file_extension = array_pop($extra_file);
+          dpm($files);
+          dpm($extra_file);
+          if($extra_file_extension !== 'install' || $extra_file_extension !== 'info' || $extra_file_extension !== 'profile'){
+            // do some thing that has to do with...
+            $extra_file = @file_get_contents($file_path . '/' . $extra_file_extension);
+            dpm($extra_file);
+            if($extra_file !== FALSE){
+              array_push($files, $extra_file);
+            }
+          }
           //
           // End Working Code
           // 
-      }
-    }
   }
   return $files;
 }
