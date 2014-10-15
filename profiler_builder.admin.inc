@@ -537,47 +537,31 @@ function profiler_builder_profiler_builder_build_files_alter(&$files, $machine_n
             $files[$key] = $temp_file;
           }
           break;
+        case 'drecipe':
         case 'info':
           // This uses the changes on the new .info file to overrite the ones on the old one.
-          if($temp_file !== FALSE){
-            $files[$key] = $temp_file;
-          } 
-          break;
-        case 'install':
-          # Create diff between retrieved install profile and current install profile
-          break;
-        case 'drush_file':
-          # Replace the drush file with the corrected drush file  -- change this case extension
-          break;
-        case 'local_file':
-          # do something... -- change this case extension
+          # Don't do anything    
           break;
         default:
           # The default appends files with extensions not in the above cases to the profile
-          dpm('default: ' . $temp_file_extension);
-          if($temp_file !== FALSE){
-            $files[$key] = $temp_file;
-          }
+          # This is where the diffing will occur - Mark
           break;
         }
-          
+      }
+    $mask = '/.*/';
+    $extra_files = file_scan_directory($file_path, $mask); // files is the current options array -- verify that this is true --check uri validity?
+    dpm($files);
+    dpm($extra_files);
+    foreach ($extra_files as $key => $value) {
+        if(!isset($files[$value->filename])){
+        // do some thing that has to do with...
+        $extra_files_stuff = @file_get_contents($value->uri);
+        dpm($extra_files_stuff);
+        if($extra_files_stuff !== FALSE){
+          $files[$value->filename] = $extra_files_stuff;
+        }
+      }
     }
-          $mask = '/.*/';
-          $extra_file = file_scan_directory($file_path, $mask); // files is the current options array -- verify that this is true --check uri validity?
-          $extra_file_extension = array_pop($extra_file);
-          dpm($files);
-          dpm($extra_file);
-          if($extra_file_extension !== 'install' || $extra_file_extension !== 'info' || $extra_file_extension !== 'profile'){
-            // do some thing that has to do with...
-            $extra_file = @file_get_contents($file_path . '/' . $extra_file_extension);
-            dpm($extra_file);
-            if($extra_file !== FALSE){
-              array_push($files, $extra_file);
-            }
-          }
-          //
-          // End Working Code
-          // 
   }
   return $files;
 }
