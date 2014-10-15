@@ -540,23 +540,20 @@ function profiler_builder_profiler_builder_build_files_alter(&$files, $machine_n
         case 'drecipe':
         case 'info':
           // This uses the changes on the new .info file to overrite the ones on the old one.
-          # Don't do anything    
+          // Don't do anything    
           break;
         default:
-          # The default appends files with extensions not in the above cases to the profile
-          # This is where the diffing will occur - Mark
+          // The default appends files with extensions not in the above cases to the profile
+          // This is where the diffing will occur - Mark
           break;
         }
       }
     $mask = '/.*/';
     $extra_files = file_scan_directory($file_path, $mask); // files is the current options array -- verify that this is true --check uri validity?
-    dpm($files);
-    dpm($extra_files);
     foreach ($extra_files as $key => $value) {
         if(!isset($files[$value->filename])){
         // do some thing that has to do with...
         $extra_files_stuff = @file_get_contents($value->uri);
-        dpm($extra_files_stuff);
         if($extra_files_stuff !== FALSE){
           $files[$value->filename] = $extra_files_stuff;
         }
