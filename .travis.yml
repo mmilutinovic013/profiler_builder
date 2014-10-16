@@ -82,7 +82,21 @@ script:
   - git status
   # Begin test for changes to .profile file
   - echo "// this is a comment" >> testdistro.profile
+  - drush distro testdistro --untar --y
   - git status
+  # Begin test for changes to .make file
+  - echo "// this is a comment" >> testdistro.make
+  - drush distro testdistro --untar --y
+  - git status
+  # Begin test for changes to .example file
+  - echo "// this is a comment" >> testdistro.example
+  - drush distro testdistro --untar --y
+  - git status
+  # Begin test for changes to .install file
+  - echo "// this is a comment" >> testdistro.install
+  - drush distro testdistro --untar --y
+  - git status
+  # End test
   - drush ddt --test-run --y
   - drush dvr watch
   - drush dvr delete --command=si
