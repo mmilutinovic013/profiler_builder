@@ -80,6 +80,9 @@ script:
   - drush distro testdistro --untar --y
   - ls -la
   - git status
+  # Begin test for changes to .profile file
+  - echo "// this is a comment" >> testdistro.profile
+  - git status
   - drush ddt --test-run --y
   - drush dvr watch
   - drush dvr delete --command=si
