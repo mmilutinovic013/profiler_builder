@@ -71,11 +71,13 @@ script:
   # make changes to .profile
   - drush distro testdistro --untar --y
   - cd /var/www/site1/profiles/testdistro
+  - git config --global user.email "you@example.com"
+  - git config --global user.name "Your Name"
   - git init
   - git add -A
-  - git commit -m "this is the message"
-  - drush si testdistro
-  - drush distro testdistro
+  - git commit Omit --global
+  - drush si testdistro --y
+  - drush distro testdistro --untar --y
   - git status
   - drush ddt --test-run --y
   - drush dvr watch
