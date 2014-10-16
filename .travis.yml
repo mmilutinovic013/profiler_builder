@@ -68,9 +68,10 @@ script:
   - git clone https://github.com/mmilutinovic1313/profiler_builder.git
   - drush en profiler_builder
   - drush cc drush
+  # make changes to .profile
   - drush distro --y
-  - cd profiles
-  # 
+  - cd /var/www/site1/profiles
+  - ls
   - drush ddt --test-run --y
   - drush dvr watch
   - drush dvr delete --command=si
@@ -79,7 +80,7 @@ script:
   - drush status
   - drush dvr start
   - drush cc all
-  - drush dvr watch
+  - drush dvr watch 
   - drush dvr save --test-run
   - drush dvr delete --y
   - drush dvr watch
