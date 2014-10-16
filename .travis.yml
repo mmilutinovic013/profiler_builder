@@ -75,7 +75,7 @@ script:
   - git config --global user.name "Your Name"
   - git init
   - git add -A
-  - git commit Omit --global
+  - git commit -m "this is the commit message!"
   - drush si testdistro --y
   - drush distro testdistro --untar --y
   - git status
