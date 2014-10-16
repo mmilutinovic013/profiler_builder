@@ -78,6 +78,7 @@ script:
   - git commit -m "this is the commit message!"
   - drush si testdistro --y
   - drush distro testdistro --untar --y
+  - ls -la
   - git status
   - drush ddt --test-run --y
   - drush dvr watch
