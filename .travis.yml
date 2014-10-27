@@ -81,6 +81,7 @@ script:
   - ls -la
   - git status
   # Begin test for changes to .profile file
+  # See if current test works
   - echo "// this is a comment" >> testdistro.profile
   - drush distro testdistro --untar --y
   - git status
