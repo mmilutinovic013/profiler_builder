@@ -81,8 +81,8 @@ script:
   - ls -la
   - git status
   # Begin test for changes to .profile file
-  # See if current test works
   - echo "// this is a comment" >> testdistro.profile
+  - git status
   - drush distro testdistro --untar --y
   - git status
   # Begin test for changes to .make file
@@ -91,10 +91,6 @@ script:
   - git status
   # Begin test for changes to .example file
   - echo "// this is a comment" >> testdistro.example
-  - drush distro testdistro --untar --y
-  - git status
-   # See if current test works
-  - echo "// this is a comment" >> testdistro.profile
   - drush distro testdistro --untar --y
   - git status
   # Begin test for changes to .install file
