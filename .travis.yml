@@ -87,14 +87,17 @@ script:
   - git status
   # Begin test for changes to .make file
   - echo "// this is a comment" >> testdistro.make
+  - git status
   - drush distro testdistro --untar --y
   - git status
   # Begin test for changes to .example file
   - echo "// this is a comment" >> testdistro.example
+  - git status
   - drush distro testdistro --untar --y
   - git status
   # Begin test for changes to .install file
   - echo "// this is a comment" >> testdistro.install
+  - git status
   - drush distro testdistro --untar --y
   - git status
   # End test
