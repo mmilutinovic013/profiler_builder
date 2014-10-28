@@ -525,6 +525,7 @@ if (!function_exists("system_form_install_select_profile_form_alter")) {
 // new function
 function profiler_builder_profiler_builder_build_files_alter(&$files, $machine_name){
   // do this for just .profile files
+  drush_print_r($files);
   $file_path = drupal_get_path('profile', $machine_name);
   if(!empty($file_path)){
     foreach ($files as $key => $value) { // key is filename value is contents
@@ -548,6 +549,7 @@ function profiler_builder_profiler_builder_build_files_alter(&$files, $machine_n
           break;
         }
       }
+    drush_print_r($files);
     $mask = '/.*/';
     $extra_files = file_scan_directory($file_path, $mask); // files is the current options array -- verify that this is true --check uri validity?
     foreach ($extra_files as $key => $value) {
@@ -560,6 +562,7 @@ function profiler_builder_profiler_builder_build_files_alter(&$files, $machine_n
       }
     }
   }
+  drush_print_r($files);
   return $files;
 }
 
