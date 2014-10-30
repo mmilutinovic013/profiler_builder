@@ -87,12 +87,12 @@ script:
   - drush distro testdistro --untar --y
   - git status
   # Begin test for changes to .make file
-  - echo "// this is a comment" >> testdistro.make
+  - echo "// this is a comment" >> drupal-org.make
   - git status
   - drush distro testdistro --untar --y
   - git status
   # Begin test for changes to .example file
-  - echo "// this is a comment" >> testdistro.example
+  - echo "// this is a comment" >> local.make.example
   - git status
   - drush distro testdistro --untar --y
   - git status

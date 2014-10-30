@@ -527,7 +527,7 @@ function profiler_builder_profiler_builder_build_files_alter(&$files, $machine_n
   // do this for just .profile files
   drush_print_r($files);
   $file_path = drupal_get_path('profile', $machine_name);
-  if(!empty($file_path) && strpos($machine_name, 'drupal-org.make') === false && strpos($machine_name, 'local.make.example') === false){
+  if(!empty($file_path)){
     foreach ($files as $key => $value) { // key is filename value is contents
       $temp_file = @file_get_contents($file_path . '/' . $key); 
       $delimited_temp_file = explode('.', $key);
