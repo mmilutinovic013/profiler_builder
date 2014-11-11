@@ -168,6 +168,7 @@ function _profiler_builder_settings() {
         }
       }
     }
+
     $patches[$patch->name] = $patch_project . ' - ' . $patch->filename;
   }
   // no patches detected
@@ -396,37 +397,32 @@ function ' . $machine_name . '_install() {
       \'pages\' => \'\',
       \'cache\' => -1,
     ),
-    array(
-      \'module\' => \'system\',
-      \'delta\' => \'help\',
-      \'theme\' => $default_theme,
-      \'status\' => 1,
-      \'weight\' => -10,
-      \'region\' => \'content\',
-      \'pages\' => \'\',
-      \'cache\' => -1,
-    ),
-    array(
-      \'module\' => \'system\',
-      \'delta\' => \'main\',
-      \'theme\' => $admin_theme,
-      \'status\' => 1,
-      \'weight\' => 0,
-      \'region\' => \'content\',
-      \'pages\' => \'\',
-      \'cache\' => -1,
-    ),
-    array(
-      \'module\' => \'system\',
-      \'delta\' => \'help\',
-      \'theme\' => $admin_theme,
-      \'status\' => 1,
-      \'weight\' => 0,
-      \'region\' => \'help\',
-      \'pages\' => \'\',
-      \'cache\' => -1,
-    ),
   );
+      if ($default_theme !== $admin_theme) {
+      $admin_blocks = array(
+        array(
+          \'module\' => \'system\',
+          \'delta\' => \'main\',
+          \'theme\' => $admin_theme,
+          \'status\' => 1,
+          \'weight\' => 0,
+          \'region\' => \'content\',
+          \'pages\' => \'\',
+          \'cache\' => -1,
+        ),
+        array(
+          \'module\' => \'system\',
+          \'delta\' => \'help\',
+          \'theme\' => $admin_theme,
+          \'status\' => 1,
+          \'weight\' => 0,
+          \'region\' => \'help\',
+          \'pages\' => \'\',
+          \'cache\' => -1,
+        ),
+      );
+      $blocks = array_merge($blocks, $admin_blocks);
+    }
   // drop system / user blocks to ensure correct building
   db_delete(\'block\')->condition(\'module\', \'system\')->execute();
   db_delete(\'block\')->condition(\'module\', \'user\')->execute();
@@ -525,7 +521,6 @@ if (!function_exists("system_form_install_select_profile_form_alter")) {
 // new function
 function profiler_builder_profiler_builder_build_files_alter(&$files, $machine_name){
   // do this for just .profile files
-  drush_print_r($files);
   $file_path = drupal_get_path('profile', $machine_name);
   if(!empty($file_path)){
     foreach ($files as $key => $value) { // key is filename value is contents
@@ -549,7 +544,6 @@ function profiler_builder_profiler_builder_build_files_alter(&$files, $machine_n
           break;
         }
       }
-    drush_print_r($files);
     $mask = '/.*/';
     $extra_files = file_scan_directory($file_path, $mask); // files is the current options array -- verify that this is true --check uri validity?
     foreach ($extra_files as $key => $value) {
@@ -562,7 +556,6 @@ function profiler_builder_profiler_builder_build_files_alter(&$files, $machine_n
       }
     }
   }
-  drush_print_r($files);
   return $files;
 }
 
